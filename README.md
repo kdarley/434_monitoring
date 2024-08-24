@@ -1,7 +1,14 @@
 sudo apt-get update
 sudo apt-get upgrade -y
 
-sudo snap install docker
+sudo apt-get install -y docker.io
+
+sudo systemctl start docker
+sudo systemctl enable docker
+
+sudo usermod -aG docker $USER
+newgrp docker
+
 sudo docker pull prom/prometheus
 sudo docker network create network
 sudo docker volume create prometheus-data
@@ -9,7 +16,6 @@ sudo docker volume create prometheus-data
 nano prometheus.yml
 
 sudo docker container run --name prometheus -v prometheus.yml -v prometheus-data:/prometheus -p 9090:9090  prom/prometheus
-
 
 sudo docker pull grafana/grafana
 sudo docker volume create grafana-data
